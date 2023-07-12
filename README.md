@@ -6,7 +6,7 @@ Sandbox for simulating seismic noise in MATLAB
 ![](./_resources/a_visualize_time_reversal.png)
 
 
-# B. Simulate Noise Correlation Seismograms
+# B. Simulating Noise Correlation Seismograms
 
 ![](./_resources/b_simulate_noise_seismograms.png)
 
