@@ -3,12 +3,12 @@ Sandbox for simulating seismic noise within a homogeneous, isotropic, acoustic h
 
 # A. Visualizing Time Reversal
 
-![](./_resources/a_visualize_time_reversal.png)
+![](./_resources/a_visualize_time_reversal.gif)
 
 
 # B. Simulating Noise Correlation Seismograms
 
-![](./_resources/b_simulate_noise_seismograms.mp4)
+![](./_resources/b_simulate_noise_seismograms.gif)
 
 
 # C. f-k Beamforming
