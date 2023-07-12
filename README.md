@@ -1,4 +1,4 @@
-# synth_noise
+# mat-noise_sim
 Sandbox for simulating seismic noise in MATLAB
 
 # A. Visualizing Time Reversal
