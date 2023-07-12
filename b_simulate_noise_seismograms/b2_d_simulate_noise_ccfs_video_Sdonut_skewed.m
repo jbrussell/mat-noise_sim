@@ -226,7 +226,7 @@ if is_movieout
     for ii = 1:1:ihrs_total
     
         figure(3); clf;
-        set(gcf,'position',[2         206        1730         814]);
+        set(gcf,'position',[2         206        1730         814],'color','w');
         
         subplot(2,2,1); box on; hold on;
         plot(x_Asrc,y_Asrc,'og','linewidth',2,'MarkerFaceColor','g');
@@ -295,7 +295,8 @@ if is_movieout
         OUTmovie(OUTit) = getframe(gcf,rect);
     end
     
-    vid = VideoWriter(['noise_ccf_build_Sdonut_spurious','.avi']);
+%     vid = VideoWriter(['noise_ccf_build_Sdonut_skewed','.avi']);
+    vid = VideoWriter(['noise_ccf_build_Sdonut_skewed'],'MPEG-4');
     vid.FrameRate = 10;
     open(vid);
     OUTmovie(1) = [];
