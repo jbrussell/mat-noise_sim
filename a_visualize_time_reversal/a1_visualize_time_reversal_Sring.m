@@ -230,7 +230,8 @@ if is_movieout
         OUTmovie(OUTit) = getframe(gcf,rect);
     end
     
-    vid = VideoWriter(['time_reversal_Sring','.avi']);
+%     vid = VideoWriter(['time_reversal_Sring','.avi']);
+    vid = VideoWriter(['time_reversal_Sring'],'MPEG-4');
     vid.FrameRate = 10;
     open(vid);
     OUTmovie(1) = [];
