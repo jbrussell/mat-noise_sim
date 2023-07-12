@@ -15,7 +15,7 @@ is_overwrite = 0; %
 % Origin in lat lon
 olat = 35;
 olon = -105;
-deg = 0.50; % station spacing
+deg = 0.5; % station spacing
 
 % Define synthetic array of stations
 [Y_stas, X_stas] = meshgrid(olat+[-1:deg:1], olon+[-1:deg:1]);
@@ -68,6 +68,7 @@ time = [time(time<0), time(time>=0)];
 
 
 figure(98); clf;
+set(gcf,'color','w');
 box on; hold on;
 load coastlines
 plot(coastlon,coastlat,'-b');

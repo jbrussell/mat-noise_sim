@@ -50,6 +50,7 @@ baz_vec = linspace(0,360,Nbaz);
 
 %% If synthetic, plot source geometry
 synth_sources = './ccf/sources.mat';
+figpath = parameters.figpath;
 if exist(synth_sources)
     load(synth_sources);
     
@@ -81,8 +82,6 @@ end
 %% Determine data weights based on azimuth (downweight common azimuths)
 % input path
 ccf_path = [parameters.ccfpath,windir,'/fullStack/ccf',comp{1},'/'];
-
-figpath = parameters.figpath;
 
 stalist = parameters.stalist;
 nsta=parameters.nsta; % number of target stations to calculate for
@@ -296,4 +295,4 @@ if exist(synth_sources)
     hp.LineWidth = 1.5;
 end
 
-save2pdf([figpath,'fk_beamform.pdf'],3,100);
+save2pdf([figpath,'fk_beamform.pdf'],1,250);
