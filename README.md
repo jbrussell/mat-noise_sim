@@ -8,7 +8,7 @@ Sandbox for simulating seismic noise within a homogeneous, isotropic, acoustic h
 
 # B. Simulating Noise Correlation Seismograms
 
-![](./_resources/b_simulate_noise_seismograms.mp3)
+![](./_resources/b_simulate_noise_seismograms.mp4)
 
 
 # C. f-k Beamforming
