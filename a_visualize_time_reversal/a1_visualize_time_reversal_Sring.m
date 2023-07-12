@@ -181,7 +181,7 @@ if is_movieout
     for i_tslice = it_plot
     
         figure(3); clf;
-        set(gcf,'position',[205   220   971   798]);
+        set(gcf,'position',[205   220   971   798],'color','w');
         
         subplot(2,2,[1 3]);
         box on; hold on;
