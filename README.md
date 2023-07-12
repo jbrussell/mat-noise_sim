@@ -1,5 +1,5 @@
 # mat-noise_sim
-Sandbox for simulating seismic noise in MATLAB
+Sandbox for simulating seismic noise within a homogeneous, isotropic, acoustic half-space in MATLAB
 
 # A. Visualizing Time Reversal
 

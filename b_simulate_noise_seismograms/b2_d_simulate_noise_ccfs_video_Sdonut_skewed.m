@@ -1,9 +1,6 @@
-% Following Wapenaar et al. (2005) time-reversal approach.
-%
-% This version generates sources at every source location Si along a ring S
-% that contains a virtual source A and receiver B. The purpose is to
-% give physical intuition behind the acausal (B --> A) and causal (A --> B)
-% arrivals in ambient noise.
+% Simulate ambient noise within a homogeneous, isotropic, acoustic half-space 
+% for random sources that form a finite-width donut with an azimuthal
+% dependence to source amplitude.
 %
 % jbrussell - 7/2023
 
@@ -40,11 +37,16 @@ y_S = r_S.*cosd(theta_S);
 % amp_S = ones(size(x_S)); % amplitude of sources
 amp_S = ones(size(theta_S)) .* (cosd(theta_S-180)*5+6); % amplitude of sources
 
-% Gaussian/Ricker wavelet properties
-% c = 3.5; % [km/s] phase velocity
-grv = 3.5; % [km/s] group velocity
-% sig = 40; % km;
-f_cent = 1/8; % 1/100; % [1/s] freq
+% Medium properties
+vel = 3.5; % [km/s] velocity of medium
+
+% Define source type
+source_type = 'ricker'; % 'ricker' or 'microseism'
+% RICKER  (impulsive source)
+f_cent = 1/8; % 1/100; % [1/s] dominant frequency of Ricker wavelet
+% MICROSEISM  (continuous source)
+fmin = 1/10; % minimum frequency to sum over
+fmax = 1/3; % maximum frequency to sum over
 
 
 figure(98); clf;
@@ -74,7 +76,7 @@ time = [time(time<0), time(time>=0)];
 
 % Expected time between A and B
 R_A_B = sqrt((x_Asrc-x_Brec).^2 + (y_Asrc-y_Brec).^2); % [km] distance from A to B
-t_A_B = R_A_B ./ grv;
+t_A_B = R_A_B ./ vel;
 
 % Theoretical prediction of ccf from Goran's class notes
 ccf_pre = real(1 ./ sqrt(t_A_B.^2 - time.^2));
@@ -96,13 +98,22 @@ for iday = 1:Ndays
             R_Si_A = sqrt((x_Asrc-x_S(isrc)).^2 + (y_Asrc-y_S(isrc)).^2); % [km] distance from Si to A
             R_Si_B = sqrt((x_Brec-x_S(isrc)).^2 + (y_Brec-y_S(isrc)).^2); % [km] distance from Si to B
 
-            % Ricker wavelet
-            % Generate random wavelet start times
-            tshift = sort(0 + (max(t)-0) .* rand(N_excite,1));
-            % Loop through and generate Ricker wavelets for Si
+            % Loop through and generate sources, Si
             for ii = 1:N_excite
-                Si_A = Si_A + amp_S(isrc) .* ricker_wavelet(t-tshift(ii),R_Si_A,grv,f_cent);
-                Si_B = Si_B + amp_S(isrc) .* ricker_wavelet(t-tshift(ii),R_Si_B,grv,f_cent);
+                if strcmp(source_type,'ricker')
+                    % Ricker wavelet
+                    % Generate random wavelet start times
+                    tshift = max(t) .* rand(1,1);
+                    Si_A = Si_A + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_A,vel,f_cent);
+                    Si_B = Si_B + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_B,vel,f_cent);
+                elseif strcmp(source_type,'microseism')
+                    freq = f(f>=fmin & f<=fmax);
+                    phi_rand = (2*pi)*rand(1,length(freq)); % random phase between [0,2*pi]
+                    Si_A = Si_A + amp_S(isrc) .* microseism_source(t,R_Si_A,vel,freq,phi_rand);
+                    Si_B = Si_B + amp_S(isrc) .* microseism_source(t,R_Si_B,vel,freq,phi_rand);
+                else
+                    error('Source type must be ''ricker'' or ''microseism''');
+                end
             end
         end
         

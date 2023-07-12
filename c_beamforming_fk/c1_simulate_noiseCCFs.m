@@ -1,9 +1,7 @@
-% Following Wapenaar et al. (2005) time-reversal approach.
-%
-% This version generates sources at every source location Si along a ring S
-% that contains a virtual source A and receiver B. The purpose is to
-% give physical intuition behind the acausal (B --> A) and causal (A --> B)
-% arrivals in ambient noise.
+% Simulate ambient noise at an array of stations contained within a 
+% homogeneous, isotropic, acoustic half-space for random sources that form 
+% a finite-width donut. Noise cross-correlation functions (CCFs) are saved 
+% for later use.
 %
 % jbrussell - 7/2023
 
@@ -54,9 +52,9 @@ vel = 3.5; % [km/s] velocity of medium
 
 % Define source type
 source_type = 'ricker'; % 'ricker' or 'microseism'
-% RICKER
+% RICKER (impulsive source)
 f_cent = 1/8; % 1/100; % [1/s] dominant frequency of Ricker wavelet
-% MICROSEISM
+% MICROSEISM (continuous source)
 fmin = 1/10; % minimum frequency to sum over
 fmax = 1/3; % maximum frequency to sum over
 % =======================================================================
@@ -190,28 +188,17 @@ for ista1 = 1:length(X_stas)
                     % Loop through and generate sources, Si
                     for ii = 1:N_excite
                         if strcmp(source_type,'ricker')
-%                             profile on
                             % Ricker wavelet
                             % Generate random wavelet start times
                             tshift = max(t) .* rand(1,1);
-            %                 f_cent = 1./(3 + (10-3) .* rand(1,1));
                             Si_A = Si_A + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_A(isrc),vel,f_cent);
                             Si_B = Si_B + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_B(isrc),vel,f_cent);
-            %                 if isrc == length(x_S) % make regularly repeating source
-            %                     for jj = 1:4 % number of times to repeat source
-            %                         dt_repeat = 20 + (-20 + 40*rand(1,1)); % [s] time between repititions
-            %                         Si_A = Si_A + amp_S(isrc) .* ricker_wavelet(t-tshift(ii)-dt_repeat*jj,R_Si_A,vel,f_cent);
-            %                         Si_B = Si_B + amp_S(isrc) .* ricker_wavelet(t-tshift(ii)-dt_repeat*jj,R_Si_B,vel,f_cent);
-            %                     end
-            %                 end
-%                             profile viewer
                         elseif strcmp(source_type,'microseism')
-%                             profile on
+                            % Continuous microseism source
                             freq = f(f>=fmin & f<=fmax);
-                            phi_rand = (2*pi)*rand(1,length(freq));
+                            phi_rand = (2*pi)*rand(1,length(freq)); % random phase between [0,2*pi]
                             Si_A = Si_A + amp_S(isrc) .* microseism_source(t,R_Si_A(isrc),vel,freq,phi_rand);
                             Si_B = Si_B + amp_S(isrc) .* microseism_source(t,R_Si_B(isrc),vel,freq,phi_rand);
-%                             profile viewer
                         else
                             error('Source type must be ''ricker'' or ''microseism''');
                         end
