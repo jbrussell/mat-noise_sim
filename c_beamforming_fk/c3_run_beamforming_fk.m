@@ -51,6 +51,10 @@ baz_vec = linspace(0,360,Nbaz);
 %% If synthetic, plot source geometry
 synth_sources = './ccf/sources.mat';
 figpath = parameters.figpath;
+if ~exist(figpath)
+    mkdir(figpath);
+end
+
 if exist(synth_sources)
     load(synth_sources);
     
