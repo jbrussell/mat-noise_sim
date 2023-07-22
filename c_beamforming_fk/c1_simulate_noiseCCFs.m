@@ -51,12 +51,16 @@ amp_S = ones(size(theta_S)) .* (cosd(theta_S+180-45)*5+6); % amplitude of source
 vel = 3.5; % [km/s] velocity of medium
 
 % Define source type
-source_type = 'ricker'; % 'ricker' or 'microseism'
+source_type = 'ricker'; % 'ricker' | 'microseism' | 'lossy_membrane'
 % RICKER (impulsive source)
 f_cent = 1/8; % 1/100; % [1/s] dominant frequency of Ricker wavelet
 % MICROSEISM (continuous source)
 fmin = 1/10; % minimum frequency to sum over
 fmax = 1/3; % maximum frequency to sum over
+% LOSSY MEMBRANE (attenuating membrane)
+fmin;
+fmax;
+alpha = 1e-3; % [1/km] attenuation coefficient
 % =======================================================================
 
 % Build frequency and time axes
@@ -200,8 +204,13 @@ for ista1 = 1:length(X_stas)
                             phi_rand = (2*pi)*rand(1,length(freq)); % random phase between [0,2*pi]
                             Si_A = Si_A + amp_S(isrc) .* microseism_source(t,R_Si_A(isrc),vel,freq,phi_rand);
                             Si_B = Si_B + amp_S(isrc) .* microseism_source(t,R_Si_B(isrc),vel,freq,phi_rand);
+                        elseif strcmp(source_type,'lossy_membrane')
+                            % 2-D Lossy Membrane response of Magrini & Boschi (2021)
+                            phi_rand = (2*pi)*rand(1,1); % random phase between [0,2*pi]
+                            Si_A = Si_A + amp_S(isrc) .* lossy_membrane(t,f,R_Si_A(isrc),vel,alpha,phi_rand);
+                            Si_B = Si_B + amp_S(isrc) .* lossy_membrane(t,f,R_Si_B(isrc),vel,alpha,phi_rand);
                         else
-                            error('Source type must be ''ricker'' or ''microseism''');
+                            error('Source type must be ''ricker'' | ''microseism'' | ''lossy_membrane''');
                         end
                     end
                 end
