@@ -3,8 +3,7 @@
 % NJA, 4/2/2016
 % JBR, 6/16/2016
 
-addpath('./functions/');
-addpath('./functions/calc_Rayleigh_disp/');
+addpath('../functions/');
 
 %%% --- Paths to important files --- %%%
 parameters.workingdir = [pwd,'/'];
