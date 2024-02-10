@@ -74,6 +74,7 @@ xlabel('Lon (X)');
 ylabel('Lat (Y)');
 xlim([min(X_stas)-1 max(X_stas)+1]);
 ylim([min(Y_stas)-1 max(Y_stas)+1]);
+drawnow;
 
 %% Determine data weights based on azimuth (downweight common azimuths)
 

@@ -97,6 +97,7 @@ ylim([min(y_S)-1 max(y_S)+1]);
 cb = colorbar;
 ylabel(cb,'Source Amplitude');
 colormap(viridis);
+drawnow;
 
 %% Generate station file
 
