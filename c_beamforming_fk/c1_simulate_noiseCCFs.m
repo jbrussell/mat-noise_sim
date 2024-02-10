@@ -12,6 +12,8 @@ rng default % for reproducibility
 
 is_overwrite = 0; %
 
+%======================= BUILD ARRAY =======================%
+
 % Origin in lat lon
 olat = 35;
 olon = -105;
@@ -25,6 +27,12 @@ Y_stas = Y_stas(:);
 d_deg = km2deg(15);
 X_stas = X_stas + d_deg*2*rand(length(X_stas),1)-d_deg;
 Y_stas = Y_stas + d_deg*2*rand(length(Y_stas),1)-d_deg;
+
+%======================= DEFINE MEDIUM =======================%
+
+vel = 3.5; % [km/s] velocity of medium
+
+%======================= DEFINE SOURCE =======================%
 
 % Source timing
 dt = 1; % [sec] sample rate
@@ -46,9 +54,6 @@ amp_S = ones(size(theta_S)) .* (cosd(theta_S+180-45)*5+6); % amplitude of source
 % x_S = r_S.*sind(theta_S);
 % y_S = r_S.*cosd(theta_S);
 [y_S, x_S] = reckon(olat,olon,r_S,theta_S);
-
-% Medium properties
-vel = 3.5; % [km/s] velocity of medium
 
 % Define source type
 source_type = 'ricker'; % 'ricker' | 'microseism' | 'lossy_membrane'
