@@ -46,6 +46,8 @@ s_vec = linspace(s_min,s_max,Nslow);
 Nbaz = 360;
 baz_vec = linspace(0,360,Nbaz);
 
+% =======================================================================
+
 [s_mat, baz_mat] = meshgrid(s_vec,baz_vec);
 
 %% If synthetic, plot source geometry
