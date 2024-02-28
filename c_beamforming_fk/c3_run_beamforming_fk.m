@@ -11,6 +11,8 @@ clear; close all;
 setup_parameters;
 addpath('../functions/');
 
+is_save_mat = 1; % save output mat file?
+
 %======================= PARAMETERS =======================%
 comp = {'ZZ'}; %'RR'; 'ZZ'; 'TT'
 windir = 'window3hr';
@@ -298,10 +300,28 @@ ylabel(c,'Relative Power (dB)','fontsize',15);
 set(gca,'fontsize',15,'linewidth',1.5)
 caxis([prctile(P_abs(:),80) 0]);
 titl = title([num2str(per_min),'-',num2str(per_max),'s']);
-titl.Position(2) = titl.Position(2) + 0.25;
+titl.Position(2) = titl.Position(2) + 0.1;
 if exist(synth_sources)
     hp = polar([0:360]*pi/180,1/vel/(s_max-s_min)*ones(size(0:360)),'--r');
     hp.LineWidth = 1.5;
 end
 
-save2pdf([figpath,'fk_beamform.pdf'],1,250);
+save2pdf([figpath,'fk_beamform_',comp{:},'_',num2str(per_min),'_',num2str(per_max),'s.pdf'],1,250);
+
+%% Save beam
+
+matpath = './beam_out/';
+if is_save_mat
+    if ~exist(matpath)
+        mkdir(matpath)
+    end
+    
+    beam.P = P;
+    beam.P_abs = P_abs;
+    beam.s_vec = s_vec;
+    beam.baz_vec = baz_vec;
+    beam.parameters = parameters;
+
+    save([matpath,'fk_beamform_',comp{:},'_',num2str(per_min),'_',num2str(per_max),'s.mat'],'beam');
+end
+
