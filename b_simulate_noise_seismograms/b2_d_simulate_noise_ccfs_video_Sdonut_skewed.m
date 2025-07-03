@@ -108,19 +108,19 @@ for iday = 1:Ndays
                     % Ricker wavelet
                     % Generate random wavelet start times
                     tshift = max(t) .* rand(1,1);
-                    Si_A = Si_A + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_A(isrc),vel,f_cent);
-                    Si_B = Si_B + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_B(isrc),vel,f_cent);
+                    Si_A = Si_A + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_A,vel,f_cent);
+                    Si_B = Si_B + amp_S(isrc) .* ricker_wavelet(t-tshift,R_Si_B,vel,f_cent);
                 elseif strcmp(source_type,'microseism')
                     % Continuous microseism source
                     freq = f(f>=fmin & f<=fmax);
                     phi_rand = (2*pi)*rand(1,length(freq)); % random phase between [0,2*pi]
-                    Si_A = Si_A + amp_S(isrc) .* microseism_source(t,R_Si_A(isrc),vel,freq,phi_rand);
-                    Si_B = Si_B + amp_S(isrc) .* microseism_source(t,R_Si_B(isrc),vel,freq,phi_rand);
+                    Si_A = Si_A + amp_S(isrc) .* microseism_source(t,R_Si_A,vel,freq,phi_rand);
+                    Si_B = Si_B + amp_S(isrc) .* microseism_source(t,R_Si_B,vel,freq,phi_rand);
                 elseif strcmp(source_type,'lossy_membrane')
                     % 2-D Lossy Membrane response of Magrini & Boschi (2021)
                     phi_rand = (2*pi)*rand(1,1); % random phase between [0,2*pi]
-                    Si_A = Si_A + amp_S(isrc) .* lossy_membrane(t,f,R_Si_A(isrc),vel,alpha,phi_rand);
-                    Si_B = Si_B + amp_S(isrc) .* lossy_membrane(t,f,R_Si_B(isrc),vel,alpha,phi_rand);
+                    Si_A = Si_A + amp_S(isrc) .* lossy_membrane(t,f,R_Si_A,vel,alpha,phi_rand);
+                    Si_B = Si_B + amp_S(isrc) .* lossy_membrane(t,f,R_Si_B,vel,alpha,phi_rand);
                 else
                     error('Source type must be ''ricker'' | ''microseism'' | ''lossy_membrane''');
                 end
